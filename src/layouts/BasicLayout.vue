@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import GlobalHeader from '@/components/GlobalHeader.vue';
 import { RouterLink , RouterView } from 'vue-router';
+
+
 </script>
 
 
