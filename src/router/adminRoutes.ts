@@ -2,7 +2,7 @@ const adminRoutes = [
     {
       path: '/admin/userManage',
       name: '用户管理',
-      component: import('@/pages/admin/UserManagePage.vue'),
+      component:() =>  import('@/pages/admin/UserManagePage.vue'),
     },
 ]
 

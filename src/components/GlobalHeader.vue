@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { h, ref } from 'vue';
-import { HomeOutlined } from '@ant-design/icons-vue';
-import { MenuProps } from 'ant-design-vue';
+import { HomeOutlined , LogoutOutlined } from '@ant-design/icons-vue';
+import { MenuProps, message } from 'ant-design-vue';
 import { useLoginUserStore } from '@/stores/useLoginUserStore';
+import { userLogoutUsingPost } from '@/api/userController';
 const current = ref<string[]>([]);
 const items = ref<MenuProps['items']>([
   {
@@ -39,6 +40,21 @@ const doMenuClick = ({ key }:MenuClick) => {
 
 const loginUserStore = useLoginUserStore();
 
+//用户注销
+const doLogout = async () => {
+    console.log('测试')
+    const res = await userLogoutUsingPost(); //直接cookie过去就知道注销谁了
+    if(res.data.code === 0) {
+        loginUserStore.setLoginUser({userName:'未登录'});
+        message.success('退出登录成功')
+        await router.push({
+            path:'/user/login',
+        })
+    } else {
+        message.error('退出登录失败' + res.data.message)
+    }
+}
+
 
 </script>
 
@@ -55,7 +71,21 @@ const loginUserStore = useLoginUserStore();
     <a-menu class="menu" v-model:selectedKeys="current" mode="horizontal" :items="items" @click="doMenuClick" />
     <div class="user-login-status">
         <div class="right-info" v-if="loginUserStore.loginUser.id">
-            {{ loginUserStore.loginUser.userName ?? '无名' }}
+            <a-dropdown>
+                <div class="user-head">
+                    <a-avatar :src="loginUserStore.loginUser.userAvatar" shape="square" size="small"></a-avatar>
+                    <span>{{ loginUserStore.loginUser.userName ?? '无名' }}</span>    
+                </div>
+                <template #overlay>
+                    <a-menu>
+                        <a-menu-item>
+                        <LogoutOutlined/>
+                        <span style="margin-left: 6px;" @click="doLogout">退出登录</span>
+                        </a-menu-item>
+                    </a-menu>
+                </template>
+            </a-dropdown>
+
         </div>
         <div class="right-info" v-else>
             <a-button type="primary" href="#">登录</a-button>
@@ -98,6 +128,15 @@ const loginUserStore = useLoginUserStore();
 
 #globalHeader .user-login-status{
     width: 70px;
-    margin-right: 10px;
+    margin-right: 50px;
+}
+
+#globalHeader .user-login-status .user-head {
+    display: flex;
+    align-items: center;
+}
+
+#globalHeader .user-login-status .user-head span {
+    margin-left: 6px;
 }
 </style>
