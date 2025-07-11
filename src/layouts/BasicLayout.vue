@@ -44,7 +44,7 @@ import { RouterLink , RouterView } from 'vue-router';
 
 .layout .content {
     padding: 30px;
-    margin-bottom: 20vh;
+    margin-bottom: 8vh;
     background-color: #fff;
 }
 
@@ -52,7 +52,7 @@ import { RouterLink , RouterView } from 'vue-router';
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: auto;
+    height: 8vh;
     box-sizing: border-box;
     background-color: #efefef;
 }

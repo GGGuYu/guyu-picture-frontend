@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import { h, ref } from 'vue';
 import { HomeOutlined } from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
+import { useLoginUserStore } from '@/stores/useLoginUserStore';
 const current = ref<string[]>([]);
 const items = ref<MenuProps['items']>([
   {
@@ -36,6 +37,7 @@ const doMenuClick = ({ key }:MenuClick) => {
     })
 }
 
+const loginUserStore = useLoginUserStore();
 
 
 </script>
@@ -52,7 +54,12 @@ const doMenuClick = ({ key }:MenuClick) => {
 
     <a-menu class="menu" v-model:selectedKeys="current" mode="horizontal" :items="items" @click="doMenuClick" />
     <div class="user-login-status">
-        <a-button type="primary" href="#">登录</a-button>
+        <div class="right-info" v-if="loginUserStore.loginUser.id">
+            {{ loginUserStore.loginUser.userName ?? '无名' }}
+        </div>
+        <div class="right-info" v-else>
+            <a-button type="primary" href="#">登录</a-button>
+        </div>
     </div>
   </div>
   
@@ -72,7 +79,7 @@ const doMenuClick = ({ key }:MenuClick) => {
 
 /* 尺寸 */
 #globalHeader .title {
-    width: 80px;
+    width: 120px;
     height: auto ;
 }
 
