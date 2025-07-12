@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+// import router from '@/router';
 import { h, ref } from 'vue';
 import { HomeOutlined , LogoutOutlined } from '@ant-design/icons-vue';
 import { MenuProps, message } from 'ant-design-vue';
@@ -27,7 +28,7 @@ const items = ref<MenuProps['items']>([
 interface MenuClick {
     key:string,
 }
-const router = useRouter()
+const router = useRouter();
 
 router.afterEach((to , from ,next) => {
     current.value = [to.path]
