@@ -66,6 +66,7 @@ const disabled = computed(() => {
             <a-form-item
             name="userAccount"
             :rules="[{ required: true, message: '请输入账号!' }]"
+            class="input"
             >
             <a-input v-model:value="formState.userAccount" placeholder="请输入账号">
                 <template #prefix>
@@ -77,6 +78,7 @@ const disabled = computed(() => {
             <a-form-item
             name="userPassword"
             :rules="[{ required: true, message: '请输入密码!' } , {min:8 , message:'密码长度不能小于8位'}]"
+            class="input"
             >
             <a-input-password v-model:value="formState.userPassword" placeholder="请输入密码">
                 <template #prefix>
@@ -107,6 +109,7 @@ const disabled = computed(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
   
 }
 
@@ -142,6 +145,7 @@ const disabled = computed(() => {
 /* 组件自带样式 */
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
+
 }
 #components-form-demo-normal-login .login-form-forgot {
   float: right;
@@ -149,6 +153,7 @@ const disabled = computed(() => {
 #components-form-demo-normal-login .login-form-button {
   width: 100%;
 }
+
 
 
 </style>

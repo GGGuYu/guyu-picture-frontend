@@ -14,9 +14,9 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
-    key: '/about',
-    label: '关于',
-    title: '关于',
+    key: '/admin/userManage',
+    label: '用户管理',
+    title: '用户管理',
   },
   {
     key: '/others',
@@ -88,7 +88,7 @@ const doLogout = async () => {
 
         </div>
         <div class="right-info" v-else>
-            <a-button type="primary" href="#">登录</a-button>
+            <a-button type="primary" href="#" @click="() => {router.push('/user/login')}">登录</a-button>
         </div>
     </div>
   </div>
@@ -127,9 +127,13 @@ const doLogout = async () => {
 }
 
 #globalHeader .user-login-status{
-    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 300px;
     margin-right: 50px;
 }
+
 
 #globalHeader .user-login-status .user-head {
     display: flex;
