@@ -1,13 +1,16 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 // import router from '@/router';
-import { h, ref } from 'vue';
+import { computed, h, ref } from 'vue';
 import { HomeOutlined , LogoutOutlined } from '@ant-design/icons-vue';
 import { MenuProps, message } from 'ant-design-vue';
 import { useLoginUserStore } from '@/stores/useLoginUserStore';
 import { userLogoutUsingPost } from '@/api/userController';
 const current = ref<string[]>([]);
-const items = ref<MenuProps['items']>([
+
+
+//未经过滤的所有菜单项
+const originItems = [
   {
     key: '/',
     icon: () => h(HomeOutlined),
@@ -24,7 +27,27 @@ const items = ref<MenuProps['items']>([
     label: '暂无',
     title: '暂无',
   },
-]);
+]
+
+//过滤菜单项，如果不是管理员，就不应该看到“用户管理”
+// 所有以admin开头的项，如果用户不符合权限，就过滤掉
+const filterMenus = (menu=[] as MenuProps['items']) => {
+    return menu?.filter((item) => {
+        //管理员才能看到admin开头的菜单
+        //?是“如果存在”的意思
+        if(item?.key?.startsWith("/admin")) {
+            const loginUser = loginUserStore.loginUser;
+            if(!loginUser || loginUser.userRole !== "admin") return false;
+        }
+        return true;
+    })
+}
+
+//组建最后接受的，展示的数组，依赖与原数组和loginUser，而loginUser可能会变，变得时候就会重新计算
+const items = computed(() => {
+   return filterMenus(originItems);
+})
+
 interface MenuClick {
     key:string,
 }
